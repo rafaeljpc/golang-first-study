@@ -1,8 +1,9 @@
-module mygogo/hello
+module github.com/rafaeljpc/golang-first-study
 
 go 1.24.3
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/swaggo/echo-swagger v1.4.1
 )

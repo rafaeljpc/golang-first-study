@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"mygogo/hello/internal/di"
+
+	"github.com/rafaeljpc/golang-first-study/internal/di"
 )
 
 func main() {

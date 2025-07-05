@@ -2,8 +2,10 @@ package di
 
 import (
 	"context"
-	"mygogo/hello/internal/adapter/http"
-	"mygogo/hello/internal/domain/service"
+
+	"github.com/rafaeljpc/golang-first-study/internal/adapter/dummy"
+	"github.com/rafaeljpc/golang-first-study/internal/adapter/http"
+	"github.com/rafaeljpc/golang-first-study/internal/domain/service"
 )
 
 type Container struct {
@@ -21,7 +23,9 @@ func NewContainer() *Container {
 
 func (c *Container) init()  {
 	ctx := context.Background()
-	c.service = service.NewService()
+	repository := dummy.NewDummyRepository()
+
+	c.service = service.NewService(repository)
 
 	c.ApiServer = http.NewHttpServer(ctx)
 

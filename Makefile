@@ -1,30 +1,33 @@
-IS_IN_PROGRESS = "is in progress ..."
+ifneq (,$(wildcard ./.env))
+	include .env
+	export
+endif
 
-## gen: will generate mock for usecases & repositories interfaces
-.PHONY: gen
-gen:
-	@echo "make gen ${IS_IN_PROGRESS}"
+.PHONY: test
 
-.PHONY: lint-fix
+PROJECT_NAME := $(shell basename "$(PWD)")
+
+all: build run
+
+build:
+	go build -o ./build/bin/$(PROJECT_NAME) ./cmd/app
+
+run:
+	rm -rf ../data && ln -s "$(realpath ./)" ../data
+	go run ./cmd/app
+
+clean:
+	go mod tidy
+
+test:
+	go test ./... --race -coverpkg=./...  --coverprofile=coverage.out
+
+lint:
+	golangci-lint run
+
 lint-fix:
-	@echo "make lint ${IS_IN_PROGRESS}"
-	@golangci-lint run --fix
+	golangci-lint run --fix
 
-.PHONY: lint-check
-lint-check:
-	@echo "make lint ${IS_IN_PROGRESS}"
-	@golangci-lint run
-
-
-## e2e-test: will test with e2e tags
-.PHONY: e2e-test
-e2e-test:
-	@echo "make e2e-test ${IS_IN_PROGRESS}"
-	@go clean -testcache
-	@go test --race -timeout=90s -failfast \
-		-vet= -cover -covermode=atomic -coverprofile=./build/coverage/e2e.out \
-		-tags=e2e ./test/...\
-
-## tests: run tests and any dependencies
-.PHONY: tests
-tests: e2e-test
+generate-mocks:
+	#
+	mockgen -source=internal/domain/service/repository.go -destination=internal/domain/service/repository_mock.go -package=service

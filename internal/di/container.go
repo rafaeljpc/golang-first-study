@@ -18,10 +18,10 @@ func NewContainer() *Container {
 	container := &Container{}
 	container.init()
 
-    return container
+	return container
 }
 
-func (c *Container) init()  {
+func (c *Container) init() {
 	ctx := context.Background()
 	repository := dummy.NewDummyRepository()
 

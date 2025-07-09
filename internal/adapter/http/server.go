@@ -14,6 +14,11 @@ type Server interface {
 	Start() error
 }
 
+
+type HttpHandler struct {
+	RegisterRoutes(*echo.Echo)
+}
+
 type HttpServer struct {
 	Server *echo.Echo
 	Addr string

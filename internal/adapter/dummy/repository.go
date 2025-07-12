@@ -13,7 +13,7 @@ func NewDummyRepository() *DummyRepository {
 	return &DummyRepository{}
 }
 
-func (r DummyRepository) ListProducts() []model.Product {
+func (r DummyRepository) ListProducts() ([]model.Product, error) {
 	return []model.Product{
 		{
 			ID:    util.GenerateUUID(),
@@ -30,5 +30,5 @@ func (r DummyRepository) ListProducts() []model.Product {
 			Name:  "Product 3",
 			Price: 3.99,
 		},
-	}
+	}, nil
 }

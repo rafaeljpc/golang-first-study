@@ -35,11 +35,12 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 }
 
 // ListProducts mocks base method.
-func (m *MockRepository) ListProducts() []model.Product {
+func (m *MockRepository) ListProducts() ([]model.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListProducts")
 	ret0, _ := ret[0].([]model.Product)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // ListProducts indicates an expected call of ListProducts.

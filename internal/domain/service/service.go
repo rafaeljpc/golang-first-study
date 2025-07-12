@@ -19,7 +19,11 @@ func NewService(repository Repository) *Service {
 
 func (s *Service) ListProducts() []model.Product {
 	fmt.Printf("ListProducts")
-	response := s.repository.ListProducts()
+	response, err := s.repository.ListProducts()
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+		return []model.Product{}
+	}
 
 	return response
 }

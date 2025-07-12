@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -36,6 +35,7 @@ func (h *Handler) RegisterRoutes(server *echo.Echo) {
 }
 
 // ListProducts returns a list of products.
+//
 //	@Summary		List all products
 //	@Description	List all products in the system.
 //	@Tags			products
@@ -60,6 +60,5 @@ func convertProducts(products []model.Product) []ProductResponse {
 			Price: products[i].Price,
 		}
 	}
-	fmt.Printf("result: %v\n", result)
 	return result
 }

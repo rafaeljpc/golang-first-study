@@ -37,7 +37,10 @@ func (c *Container) init() {
 	handler := handlers.NewHttpServiceHandler(c.service)
 	handler.RegisterRoutes(c.ApiServer.Server)
 
-	c.ApiServer.Start()
+	err := c.ApiServer.Start()
+	if err != nil {
+		log.Fatalf("Failed to start API server: %v", err)
+	}
 }
 
 func (c *Container) createPostgresDBConnection() *sql.DB {

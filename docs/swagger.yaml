@@ -1,3 +1,6 @@
+definitions:
+  handlers.ListProductResponse:
+    type: object
 info:
   contact: {}
 paths: {}

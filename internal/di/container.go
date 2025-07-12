@@ -5,6 +5,7 @@ import (
 
 	"github.com/rafaeljpc/golang-first-study/internal/adapter/dummy"
 	"github.com/rafaeljpc/golang-first-study/internal/adapter/http"
+	"github.com/rafaeljpc/golang-first-study/internal/adapter/http/handlers"
 	"github.com/rafaeljpc/golang-first-study/internal/domain/service"
 )
 
@@ -28,6 +29,9 @@ func (c *Container) init() {
 	c.service = service.NewService(repository)
 
 	c.ApiServer = http.NewHttpServer(ctx)
+	
+	handler := handlers.NewHttpServiceHandler(c.service)
+	handler.RegisterRoutes(c.ApiServer.Server)
 
 	c.ApiServer.Start()
 }

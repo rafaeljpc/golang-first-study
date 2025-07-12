@@ -6,6 +6,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/rafaeljpc/golang-first-study/internal/domain/model"
 	"github.com/rafaeljpc/golang-first-study/internal/domain/service"
+
+	_ "github.com/rafaeljpc/golang-first-study/docs"
 )
 
 type Handler struct {
@@ -29,7 +31,7 @@ func NewHttpServiceHandler(service *service.Service) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(server *echo.Echo) {
-	server.GET("/products", h.ListProducts)
+	server.GET("/product", h.ListProducts)
 }
 
 // ListProducts returns a list of products.

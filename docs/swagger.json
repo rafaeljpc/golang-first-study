@@ -3,5 +3,10 @@
     "info": {
         "contact": {}
     },
-    "paths": {}
+    "paths": {},
+    "definitions": {
+        "handlers.ListProductResponse": {
+            "type": "object"
+        }
+    }
 }

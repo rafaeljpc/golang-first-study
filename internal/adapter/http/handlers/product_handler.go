@@ -30,11 +30,13 @@ func NewHttpServiceHandler(service *service.Service) *Handler {
 	}
 }
 
+// @title Product API
+// @version 1.0
 func (h *Handler) RegisterRoutes(server *echo.Echo) {
 	server.GET("/product", h.ListProducts)
 }
 
-// ListProducts returns a list of products.
+// ListProducts godoc
 //
 //	@Summary		List all products
 //	@Description	List all products in the system.

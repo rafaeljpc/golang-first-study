@@ -17,5 +17,7 @@ definitions:
     type: object
 info:
   contact: {}
+  title: Product API
+  version: "1.0"
 paths: {}
 swagger: "2.0"

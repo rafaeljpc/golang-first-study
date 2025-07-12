@@ -1,5 +1,19 @@
 definitions:
   handlers.ListProductResponse:
+    properties:
+      result:
+        items:
+          $ref: '#/definitions/handlers.ProductResponse'
+        type: array
+    type: object
+  handlers.ProductResponse:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
     type: object
 info:
   contact: {}

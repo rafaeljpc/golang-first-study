@@ -21,5 +21,7 @@ func (s *Service) ListProducts() []model.Product {
 	fmt.Printf("ListProducts")
 	response := s.repository.ListProducts()
 
+	fmt.Printf("response: %v\n", response)
+
 	return response
 }

@@ -17,7 +17,29 @@ const docTemplate = `{
     "paths": {},
     "definitions": {
         "handlers.ListProductResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "result": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/handlers.ProductResponse"
+                    }
+                }
+            }
+        },
+        "handlers.ProductResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
         }
     }
 }`

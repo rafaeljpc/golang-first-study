@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -21,7 +22,7 @@ type ProductResponse struct {
 }
 
 type ListProductResponse struct {
-	result []ProductResponse
+	Result []ProductResponse `json:"result"`
 }
 
 func NewHttpServiceHandler(service *service.Service) *Handler {
@@ -44,7 +45,7 @@ func (h *Handler) ListProducts(echoCtx echo.Context) error {
 	products := convertProducts(h.service.ListProducts())
 
 	response := ListProductResponse{
-		result: products,
+		Result: products,
 	}
 
 	return echoCtx.JSON(http.StatusOK, response)
@@ -59,5 +60,6 @@ func convertProducts(products []model.Product) []ProductResponse {
 			Price: products[i].Price,
 		}
 	}
+	fmt.Printf("result: %v\n", result)
 	return result
 }

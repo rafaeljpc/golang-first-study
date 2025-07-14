@@ -3,6 +3,7 @@ package di
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -28,7 +29,14 @@ func NewContainer() *Container {
 
 func (c *Container) init() {
 	ctx := context.Background()
-	repository := postgres.NewPostgresRepository(c.createPostgresDBConnection())
+	sqlConnection, err := c.createPostgresDBConnection()
+	if err != nil {
+		return
+	}	
+	defer func() {
+		err = errors.Join(sqlConnection.Close())		
+	}()
+	repository := postgres.NewPostgresRepository(sqlConnection)
 
 	c.service = service.NewService(repository)
 
@@ -37,29 +45,29 @@ func (c *Container) init() {
 	handler := handlers.NewHttpServiceHandler(c.service)
 	handler.RegisterRoutes(c.ApiServer.Server)
 
-	err := c.ApiServer.Start()
+	err = c.ApiServer.Start()
 	if err != nil {
 		log.Fatalf("Failed to start API server: %v", err)
 	}
 }
 
-func (c *Container) createPostgresDBConnection() *sql.DB {
+func (c *Container) createPostgresDBConnection() (*sql.DB, error) {
 	username := os.Getenv("DB_USERNAME")
 	password := os.Getenv("DB_PASSWORD")
 	host := os.Getenv("DB_HOST")
 	port := os.Getenv("DB_PORT")
 	dbname := os.Getenv("DB_NAME")
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, username, password, dbname)
 
-	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%s/%s", username, password, host, port, dbname))
+	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
-	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
 		log.Fatalf("Failed to ping the database: %v", err)
 	}
 
-	return db
+	return db, err
 }

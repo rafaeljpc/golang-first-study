@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 
 	_ "github.com/lib/pq"
@@ -15,7 +16,7 @@ type postgresRepository struct {
 
 const query = `
 		SELECT id, name, price
-		FROM products
+		FROM public.product
 	`
 
 // NewPostgresRepository creates a new PostgreSQL-based repository.
@@ -31,7 +32,9 @@ func (r *postgresRepository) ListProducts() ([]model.Product, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to query products: %w", err)
 	}
-	defer rows.Close()
+	defer func() {
+		err = errors.Join(rows.Close())		
+	}()
 
 	for rows.Next() {
 		var p model.Product

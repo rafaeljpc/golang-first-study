@@ -1,7 +1,7 @@
 package service
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/rafaeljpc/golang-first-study/internal/domain/model"
 )
@@ -18,10 +18,10 @@ func NewService(repository Repository) *Service {
 }
 
 func (s *Service) ListProducts() []model.Product {
-	fmt.Printf("ListProducts")
+	log.Default().Printf("ListProducts")
 	response, err := s.repository.ListProducts()
 	if err != nil {
-		fmt.Printf("Error: %v", err)
+		log.Fatalf("Error: %v", err)
 		return []model.Product{}
 	}
 

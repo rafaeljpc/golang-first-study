@@ -82,8 +82,9 @@ func runScript(t *testing.T, db *sql.DB, filename string) error {
 
 	script := strings.Split(string(b), ";\n")
 	for _, stmt := range script {
-		log.Default().Println("Executing statement: ", util.Substring(stmt, 0, 10))
-		_, err = db.Exec(stmt)
+		trimmedStmt := strings.TrimSpace(stmt)
+		log.Default().Println("Executing statement: ", util.Substring(trimmedStmt, 0, 20))
+		_, err = db.Exec(trimmedStmt)
 		if err != nil {
 			return fmt.Errorf("failed to execute statement: %w", err)
 		}

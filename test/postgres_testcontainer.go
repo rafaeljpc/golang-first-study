@@ -38,11 +38,12 @@ func GetTestConnection(t *testing.T, ctr *postgres.PostgresContainer) (*sql.DB, 
 		return nil, fmt.Errorf("container is not running")
 	}
 
-	connStr, err := ctr.ConnectionString(t.Context())
+	connStr, err := ctr.ConnectionString(t.Context(), "sslmode=disable")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get connection string: %w", err)
 	}
 
+	log.Default().Printf("Connecting to database at %s\n", connStr)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database connection: %w", err)

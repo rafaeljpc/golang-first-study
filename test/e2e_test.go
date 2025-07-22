@@ -1,7 +1,9 @@
 package test
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"testing"
 
 	"github.com/rafaeljpc/golang-first-study/internal/adapter/postgres"
@@ -11,6 +13,7 @@ import (
 
 func Test_E2E_ListProducts(t *testing.T) {
 	// Given
+	os.Chdir("..")
 	// ctx := t.Context()
 	postgresContainer := NewPostgresContainer(t)
 	defer func() {
@@ -33,4 +36,6 @@ func Test_E2E_ListProducts(t *testing.T) {
 	// Then
 	assert.NoError(t, err)
 	assert.NotEmpty(t, products)
+	assert.GreaterOrEqual(t, len(products), 3)
+	fmt.Printf("products: %+v\n", products)
 }

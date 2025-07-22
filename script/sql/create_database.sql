@@ -7,4 +7,4 @@ CREATE USER go_test WITH PASSWORD 'go';
 -- Grant privileges to the user
 GRANT ALL ON DATABASE go_test TO go_test;
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+GRANT USAGE, CREATE ON SCHEMA public TO go_test;
